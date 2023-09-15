@@ -1,0 +1,309 @@
+echo "# COB-APP-DEVELOPMENT-INTERN" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/shashank5590/COB-APP-DEVELOPMENT-INTERN.git
+git push -u origin main
+Container(
+  //width: MediaQuery.of(context).size.width * 0.45,
+  decoration: BoxDecoration(
+    color: AppTheme.of(context).secondaryBackground,
+    boxShadow: [
+      BoxShadow(
+        blurRadius: 4,
+        color: Color(0x3600000F),
+        offset: Offset(0, 2),
+      )
+    ],
+    borderRadius: BorderRadius.circular(8),
+  ),
+  child: Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+    child: Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(0),
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: Image.network(
+                  product.image,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(8, 4, 0, 0),
+                child: Text(
+                  product.name,
+                  style: AppTheme.of(context).bodyText1,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(8, 4, 0, 0),
+                child: Text(
+                  '\$${product.price}',
+                  style: AppTheme.of(context).bodyText2,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+Badge(
+  badgeContent: Text(
+    '${cartItem.length}',
+    style: AppTheme.of(context).bodyText1.override(
+          fontFamily: 'Poppins',
+          color: Colors.white,
+        ),
+  ),
+  showBadge: true,
+  shape: BadgeShape.circle,
+  badgeColor: AppTheme.of(context).primaryColor,
+  elevation: 4,
+  padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+  position: BadgePosition.topEnd(),
+  animationType: BadgeAnimationType.scale,
+  toAnimate: true,
+  child: IconButton(
+    icon: Icon(
+      Icons.shopping_cart_outlined,
+      color: AppTheme.of(context).secondaryText,
+      size: 30,
+    ),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CheckoutWidget(),
+        ),
+      );
+    },
+  ),
+)
+ListView.builder(
+    padding: EdgeInsets.zero,
+    primary: false,
+    shrinkWrap: true,
+    scrollDirection: Axis.vertical,
+    itemCount: cartItems.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+        child: Container(
+          width: double.infinity,
+          height: 100,
+          decoration: BoxDecoration(
+            color: AppTheme.of(context).secondaryBackground,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 4,
+                color: Color(0x320E151B),
+                offset: Offset(0, 1),
+              )
+            ],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16, 8, 8, 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Hero(
+                  tag: 'ControllerImage',
+                  transitionOnUserGestures: true,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      cartItems[index].image,
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
+                        child: Text(
+                          cartItems[index].name,
+                          style: AppTheme.of(context).subtitle2.override(
+                                fontFamily: 'Poppins',
+                                color: AppTheme.of(context).primaryText,
+                              ),
+                        ),
+                      ),
+                      Text(
+                        '\$${cartItems[index].price}',
+                        style: AppTheme.of(context).bodyText2,
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                        child: Text(
+                          'Quanity: ${cartItems[index].quantity}',
+                          style: AppTheme.of(context).bodyText2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.delete_outline_rounded,
+                    color: Color(0xFFE86969),
+                    size: 20,
+                  ),
+                  onPressed: () {
+                  // Remove item
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+class Product {
+  final int id;
+  final String name;
+  final String image;
+  final double price;
+  int quantity;
+
+  Product({required this.id, required this.name, required this.image, required this.price, this.quantity = 0});
+}
+GridView.builder(
+  itemCount: products.length,
+  itemBuilder: (context, index) => ProductTile(
+    itemNo: index,
+    product: products[index],
+  ),
+  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    childAspectRatio: 1,
+  ),
+)
+class CartBloc extends Bloc<CartEvent, CartState> {
+  CartBloc() : super(ProductAdded(cartItem: []));
+
+  final List<Product> _cartItems = [];
+  List<Product> get items => _cartItems;
+  bool isGridView = true;
+
+  @override
+  Stream<CartState> mapEventToState(CartEvent event) async* {
+    if (event is AddProduct) {
+      _cartItems.add(event.productIndex);
+      yield ProductAdded(cartItem: _cartItems);
+    } else if (event is RemoveProduct) {
+      _cartItems.remove(event.productIndex);
+      yield ProductRemoved(cartItem: _cartItems);
+    } else if (event is ChangeGallaryView) {
+      isGridView = event.isGridView;
+      yield ChangeGallaryViewState(isGridView: isGridView);
+    }
+  }
+}
+abstract class CartEvent extends Equatable {
+  const CartEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class AddProduct extends CartEvent {
+  final Product productIndex;
+
+  const AddProduct(this.productIndex);
+
+  @override
+  List<Object> get props => [productIndex];
+
+  @override
+  String toString() => 'AddProduct { index: $productIndex }';
+}
+
+class RemoveProduct extends CartEvent {
+  final Product productIndex;
+
+  const RemoveProduct(this.productIndex);
+
+  @override
+  List<Object> get props => [productIndex];
+
+  @override
+  String toString() => 'RemoveProduct { index: $productIndex }';
+}
+abstract class CartState {
+  final List<Product> cartItem;
+  final bool isGridView;
+  const CartState({this.cartItem = const [], this.isGridView = true});
+
+  @override
+  List<Object> get props => [];
+}
+
+class CartLoadInProgress extends CartState {
+  CartLoadInProgress({required super.cartItem});
+}
+
+class ProductAdded extends CartState {
+  final List<Product> cartItem;
+
+  const ProductAdded({required this.cartItem}) : super(cartItem: cartItem);
+
+  @override
+  List<Object> get props => [cartItem];
+
+  @override
+  String toString() => 'ProductAdded { todos: $cartItem }';
+}
+From the UI (a button with “Add to Cart” text), you can insert the following code to add the item to the list:
+
+onPressed: () {
+  Product p = widget.product;
+  p.quantity = countControllerValue!.toInt();
+  BlocProvider.of<CartBloc>(context).add(AddProduct(p));
+}
+nPressed: () {
+  BlocProvider.of<CartBloc>(context).add(RemoveProduct(cartItems[index]));
+}
+BlocBuilder<CartBloc, CartState>(builder: (_, cartState) {
+  return ListView.builder();
+}),
